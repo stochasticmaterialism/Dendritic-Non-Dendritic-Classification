@@ -1,0 +1,155 @@
+from google.colab import drive
+drive.mount('/content/drive/')
+!mkdir "********************"    # Insert name of your Google Drive
+!unzip "/content/drive/My Drive/*************" -d *****************  # Check out for the exact location of the image folder in the Google Drive
+
+import matplotlib.pyplot as plt
+from matplotlib import pyplot
+import numpy as np 
+import keras as keras
+from keras.layers import GlobalAveragePooling2D
+from keras.applications.vgg16 import VGG16
+from keras.preprocessing import image
+from keras.preprocessing.image import ImageDataGenerator
+from keras.applications.vgg16 import preprocess_input
+from keras.applications.vgg16 import decode_predictions
+from keras.layers import Dense,Activation,Flatten,Dropout
+from keras.layers import merge,Input
+from keras.models import Model
+from keras.utils import np_utils
+from sklearn.utils import shuffle
+from sklearn.model_selection import train_test_split
+from keras.models import load_model
+from numpy import array
+from numpy import argmax
+from sklearn.metrics import accuracy_score
+import keras,os,glob
+from keras.optimizers import Adam
+from keras.models import Sequential
+from keras.layers import Dense,Conv2D,MaxPool2D,Flatten
+from keras.preprocessing.image import ImageDataGenerator
+from keras.callbacks import ModelCheckpoint,EarlyStopping
+from keras.applications.inception_v3 import InceptionV3
+from keras.applications.inception_v3 import preprocess_input as pi_incep
+from keras.applications.xception import Xception
+from keras.applications.xception import preprocess_input as pi_xcep 
+import tensorflow as tf
+
+img_height=300
+img_width=300
+batch_size=32
+train_datagen=ImageDataGenerator(validation_split=0.3,preprocessing_function=preprocess_input) 
+train_generator_vgg16=train_datagen.flow_from_directory("/content/debanshu.ju.metallurgy/DnD_Gray",target_size=(img_height,img_width),batch_size=batch_size,class_mode='categorical',subset='training') 
+test_generator_vgg16=train_datagen.flow_from_directory("/content/debanshu.ju.metallurgy/DnD_Gray",target_size=(img_height,img_width),batch_size=batch_size,class_mode='categorical',subset='validation')
+new_input=Input(shape=(300,300,3))
+model=VGG16(include_top=False,input_tensor=new_input,pooling='max',classes=2,input_shape=(300,300,3),weights='imagenet')
+#model.summary()
+flat1=Flatten()(model.layers[-1].output)
+class1=Dense(1024,activation='relu')(flat1)
+output=Dense(2,activation='softmax')(class1)
+model=Model(inputs=model.inputs,outputs=output)
+model.summary()
+opt=Adam(lr=0.0001)
+model.compile(optimizer=opt,loss=keras.losses.categorical_crossentropy,metrics=['accuracy'])
+model.summary()
+for layer in model.layers[:0]:
+	layer.trainable=False
+for i,layer in enumerate(model.layers):
+    print(i,layer.name,layer.trainable)
+checkpoint=ModelCheckpoint('model',monitor='val_accuracy',verbose=1,save_best_only=True,save_weights_only=False,mode='auto',period=1)
+early=EarlyStopping(monitor='val_accuracy',min_delta=0,patience=20,verbose=1,mode='auto')
+hist=model.fit_generator(steps_per_epoch=60,generator=train_generator_vgg16,validation_data=test_generator_vgg16,validation_steps=20,epochs=100,callbacks=[checkpoint,early])
+!mkdir -p saved_model
+model.save('saved_model/Model_VGG16')
+# my_model directory
+#!ls saved_model
+# Contains an assets folder, saved_model.pb, and variables folder.
+#!ls saved_model/Model_VGG16
+model.save('Model_VGG16') 
+plt.plot(hist.history["accuracy"])
+plt.plot(hist.history['val_accuracy'])
+plt.plot(hist.history['loss'])
+plt.plot(hist.history['val_loss'])
+plt.title("model accuracy")
+plt.ylabel("Accuracy")
+plt.xlabel("Epoch")
+plt.legend(["Training Accuracy","Validation Accuracy","Training Loss","Validation Loss"])
+plt.show()
+
+new_input=Input(shape=(300,300,3))
+model1=InceptionV3(include_top=False,input_tensor=new_input,pooling='max',classes=2,input_shape=(300,300,3),weights='imagenet')
+#model1.summary()
+flat1=Flatten()(model1.layers[-1].output)
+class1=Dense(1024,activation='relu')(flat1)
+output=Dense(2,activation='softmax')(class1)
+model1=Model(inputs=model1.inputs,outputs=output)
+model1.summary()
+opt=Adam(lr=0.0001)
+model1.compile(optimizer=opt,loss=keras.losses.categorical_crossentropy,metrics=['accuracy'])
+model1.summary()
+for layer in model1.layers[:203]:
+	layer.trainable=False
+for i,layer in enumerate(model1.layers):
+    print(i,layer.name,layer.trainable)
+checkpoint=ModelCheckpoint('model1',monitor='val_accuracy',verbose=1,save_best_only=True,save_weights_only=False,mode='auto',period=1)
+early=EarlyStopping(monitor='val_accuracy',min_delta=0,patience=20,verbose=1,mode='auto')
+hist1=model1.fit_generator(steps_per_epoch=60,generator=train_generator_vgg16,validation_data=test_generator_vgg16,validation_steps=20,epochs=100,callbacks=[checkpoint,early])
+!mkdir -p saved_model
+model.save('saved_model/Model_InceptionV3(203)')
+# my_model directory
+!ls saved_model
+# Contains an assets folder, saved_model.pb, and variables folder.
+!ls saved_model/Model_InceptionV3(203)
+#Restore model as
+#new_model=tf.keras.models.load_model('saved_model/Model_InceptionV3')
+model.save('Model_InceptionV3.h5(203)') 
+# Recreate the exact same model, including its weights and the optimizer
+#new_model=tf.keras.models.load_model('Model_InceptionV3.h5')
+plt.plot(hist1.history["accuracy"])
+plt.plot(hist1.history['val_accuracy'])
+plt.plot(hist1.history['loss'])
+plt.plot(hist1.history['val_loss'])
+plt.title("model accuracy")
+plt.ylabel("Accuracy")
+plt.xlabel("Epoch")
+plt.legend(["Training Accuracy","Validation Accuracy","Training Loss","Validation Loss"])
+plt.show()
+
+new_input=Input(shape=(300,300,3))
+model2=Xception(include_top=False,input_tensor=new_input,pooling='max',classes=2,input_shape=(300,300,3),weights='imagenet')
+#model2.summary()
+flat1=Flatten()(model2.layers[-1].output)
+class1=Dense(1024,activation='relu')(flat1)
+output=Dense(2,activation='softmax')(class1)
+model2=Model(inputs=model2.inputs,outputs=output)
+model2.summary()
+opt=Adam(lr=0.0001)
+model2.compile(optimizer=opt,loss=keras.losses.categorical_crossentropy,metrics=['accuracy'])
+model2.summary()
+for layer in model2.layers[:133]:
+	layer.trainable=False
+for i,layer in enumerate(model2.layers):
+    print(i,layer.name,layer.trainable)
+checkpoint=ModelCheckpoint('model2',monitor='val_accuracy',verbose=1,save_best_only=True,save_weights_only=False,mode='auto',period=1)
+early=EarlyStopping(monitor='val_accuracy',min_delta=0,patience=20,verbose=1,mode='auto')
+hist1=model2.fit_generator(steps_per_epoch=60,generator=train_generator_vgg16,validation_data=test_generator_vgg16,validation_steps=20,epochs=100,callbacks=[checkpoint,early])
+!mkdir -p saved_model
+model.save('saved_model/Model_Xception')
+# my_model directory
+!ls saved_model
+# Contains an assets folder, saved_model.pb, and variables folder.
+!ls saved_model/Model_Xception
+#Restore model as
+#new_model=tf.keras.models.load_model('saved_model/Model_Xception')
+model.save('Model_Xception') 
+# Recreate the exact same model, including its weights and the optimizer
+#new_model=tf.keras.models.load_model('Model_Xception')
+plt.plot(hist1.history["accuracy"])
+plt.plot(hist1.history['val_accuracy'])
+plt.plot(hist1.history['loss'])
+plt.plot(hist1.history['val_loss'])
+plt.title("model accuracy")
+plt.ylabel("Accuracy")
+plt.xlabel("Epoch")
+plt.legend(["Training Accuracy","Validation Accuracy","Training Loss","Validation Loss"])
+plt.show()

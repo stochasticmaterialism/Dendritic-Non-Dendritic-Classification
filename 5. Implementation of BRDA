@@ -44,24 +44,6 @@ print(y.shape)
 # Train random forest and MLP classifiers without implementation of BRDA
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, stratify=y)
 
-rf = RandomForestClassifier(max_depth=2, random_state=0)
-rf.fit(x_train, y_train)
-predictions_rf = rf.predict(x_test)
-total_acc_rf = accuracy_score(y_true = y_test, y_pred = predictions_rf)
-total_error_rf = 1 - total_acc_rf
-
-print("Random Forest")
-print("Accuracy\t{}\nError\t\t{}".format(total_acc_rf, total_error_rf))
-
-mlp = MLPClassifier(random_state=1, max_iter=300).fit(x_train, y_train)
-#mlp.fit(x_train, y_train)
-predictions_mlp = mlp.predict(x_test)
-total_acc_mlp = accuracy_score(y_true = y_test, y_pred = predictions_mlp)
-total_error_mlp = 1 - total_acc_mlp
-
-print("MLP")
-print("Accuracy\t{}\nError\t\t{}".format(total_acc_mlp, total_error_mlp))
-
 # Implement BRDA
 
 #V-shaped

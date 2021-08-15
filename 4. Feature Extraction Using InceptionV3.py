@@ -3,7 +3,6 @@
 # Import necessary libraries
 import cv2 
 import matplotlib.pyplot as plt
-from matplotlib import pyplot
 import os
 import glob
 import numpy as np 
@@ -13,26 +12,12 @@ from keras.layers import GlobalAveragePooling2D
 from keras.applications.inception_v3 import InceptionV3
 from keras.applications.inception_v3 import preprocess_input as pi_incep
 from keras.preprocessing import image
-from keras.preprocessing.image import ImageDataGenerator
-from keras.applications.vgg16 import preprocess_input
-from keras.applications.vgg16 import decode_predictions
 from keras.layers import Dense,Activation,Flatten,Dropout
 from keras.layers import merge,Input
 from keras.models import Model
-from keras.utils import np_utils
-from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 from keras.models import load_model
-from numpy import array
-from numpy import argmax
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
-from  numpy import mean 
-from numpy import std
-import keras,os
 from keras.models import Sequential
-from keras.layers import Dense, Conv2D, MaxPool2D , Flatten
-from keras.preprocessing.image import ImageDataGenerator
 
 #Load images
 #Dendrites labelled as 1, non-dendrites as 0
@@ -95,4 +80,4 @@ print(f_incep.shape)
 
 # The feature set is saved as CSV file
 x=pd.DataFrame(f_incep)
-x.to_csv('dnd_incep_original.csv')
+x.to_csv('name.csv')

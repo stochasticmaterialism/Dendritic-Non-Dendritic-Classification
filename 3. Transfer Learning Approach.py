@@ -25,13 +25,8 @@ from keras.layers import Dense,Activation,Flatten,Dropout
 from keras.layers import merge,Input
 from keras.models import Model
 from keras.utils import np_utils
-from sklearn.utils import shuffle
-from sklearn.model_selection import train_test_split
 from keras.models import load_model
-from numpy import array
-from numpy import argmax
 from sklearn.metrics import accuracy_score
-import keras,os,glob
 from keras.optimizers import Adam
 from keras.models import Sequential
 from keras.layers import Dense,Conv2D,MaxPool2D,Flatten
@@ -48,12 +43,12 @@ img_height=300
 img_width=300
 
 # The batch size is declared equal to the number of images used for training the pre trained networks, 70% of the total number of images
-batch_size=2375
+batch_size=2827
 
 # Import the images with a 7:3 ratio between the training and validation sets
 train_datagen=ImageDataGenerator(validation_split=0.3,preprocessing_function=preprocess_input) 
-train_generator_vgg16=train_datagen.flow_from_directory("/content/debanshu.ju.metallurgy/DnD_Gray",target_size=(img_height,img_width),batch_size=batch_size,class_mode='categorical',subset='training') 
-test_generator_vgg16=train_datagen.flow_from_directory("/content/debanshu.ju.metallurgy/DnD_Gray",target_size=(img_height,img_width),batch_size=batch_size,class_mode='categorical',subset='validation')
+train_generator_vgg16=train_datagen.flow_from_directory("XXXXXX",target_size=(img_height,img_width),batch_size=batch_size,class_mode='categorical',subset='training') 
+test_generator_vgg16=train_datagen.flow_from_directory("XXXXXX",target_size=(img_height,img_width),batch_size=batch_size,class_mode='categorical',subset='validation')
 
 # For all the networks, max pooling, ADAM optimizer and cross entropy loss have been considered 
 

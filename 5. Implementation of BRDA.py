@@ -9,15 +9,12 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
-from sklearn.naive_bayes import GaussianNB
-from sklearn.svm import NuSVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import make_pipeline
 
 # Load the CSV file for the feature set
-df = pd.read_csv('dnd_incep.csv')
+df = pd.read_csv('name.csv')
 df=df[df.columns[1:]]
 df.head()
 

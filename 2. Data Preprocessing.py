@@ -55,23 +55,23 @@ for f in files:
     plt.show()'''
     
 '''Keras ImageDataGenerator class provides a quick and easy way to augment your images. It provides a host of different augmentation techniques like standardization, rotation, shifts, flips, brightness change, and many more.
-ImageDataGenerator class allows you to randomly rotate images through any degree between 0 and 360 by providing an integer value in the rotation_range argument.'''    
-datagen=ImageDataGenerator(rotation_range=40,shear_range=.2,zoom_range=0.2,horizontal_flip=True,brightness_range=(0.5,1.5))
+ImageDataGenerator class allows us to randomly rotate images through any degree between 0 and 360 by providing an integer value in the rotation_range argument.'''    
+datagen=ImageDataGenerator(rotation_range=50,shear_range=0.2,zoom_range=0.2,horizontal_flip=True,brightness_range=(0.5,1.5))
     
 for i in range(len(data)): 
     #Converting the input sample image to an array
     x=img_to_array(data[i])
     x=x.reshape((1,)+x.shape)
-    #Generating and saving 5 augmented samples using the above defined parameters. 
+    #Generating and saving 6 augmented samples using the above defined parameters. 
     if (y[i]==1):
         j=0
-        for batch in datagen.flow(x,batch_size=1,save_to_dir=r'C:\Users\DEBANSHU BANERJEE\Desktop\Dnd_Gray\dendritic',save_prefix=name[i]+'g'+str(j),save_format='jpg'):
+        for batch in datagen.flow(x,batch_size=1,save_to_dir=r'drection path where images are to be saved',save_prefix=name[i]+'g'+str(j),save_format='jpg'):
             j+=1
             if j>5:
                 break
     else:
         j=0
-        for batch in datagen.flow(x,batch_size=1,save_to_dir=r'C:\Users\DEBANSHU BANERJEE\Desktop\DnD_Gray\nondendritic',save_prefix='image',save_format='jpg'):
+        for batch in datagen.flow(x,batch_size=1,save_to_dir=r'drection path where images are to be saved',save_prefix='image',save_format='jpg'):
             j+=1
             if j>5:
                 break

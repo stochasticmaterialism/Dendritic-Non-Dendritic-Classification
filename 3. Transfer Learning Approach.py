@@ -63,7 +63,7 @@ output=Dense(2,activation='softmax')(class1)
 model=Model(inputs=model.inputs,outputs=output)
 # The netwrok architecture is checked
 model.summary()
-opt=Adam(lr=0.0001) # Specify the learning the rate for the ADAM optimizer
+opt=Adam(lr=0.027) # Specify the learning the rate for the ADAM optimizer
 model.compile(optimizer=opt,loss=keras.losses.categorical_crossentropy,metrics=['accuracy'])
 model.summary()
 # Try out training different combination of layers by freezing and unfreezing them 
@@ -99,7 +99,7 @@ class1=Dense(1024,activation='relu')(flat1)
 output=Dense(2,activation='softmax')(class1)
 model1=Model(inputs=model1.inputs,outputs=output)
 model1.summary()
-opt=Adam(lr=0.0001)
+opt=Adam(lr=0.339)
 model1.compile(optimizer=opt,loss=keras.losses.categorical_crossentropy,metrics=['accuracy'])
 model1.summary()
 for layer in model1.layers[:203]:
@@ -131,7 +131,7 @@ class1=Dense(1024,activation='relu')(flat1)
 output=Dense(2,activation='softmax')(class1)
 model2=Model(inputs=model2.inputs,outputs=output)
 model2.summary()
-opt=Adam(lr=0.0001)
+opt=Adam(lr=0.007)
 model2.compile(optimizer=opt,loss=keras.losses.categorical_crossentropy,metrics=['accuracy'])
 model2.summary()
 for layer in model2.layers[:133]:
